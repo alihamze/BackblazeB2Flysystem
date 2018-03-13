@@ -1,0 +1,19 @@
+{
+	"name": "techyet/b2-flysystem",
+	"require": {
+		"techyet/b2-sdk": "^0.1.0",
+		"league/flysystem": "^1.0"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Ali Hamze",
+			"email": "ali@techyet.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"TechYet\\B2Flysystem\\": "src/"
+		}
+	}
+}
