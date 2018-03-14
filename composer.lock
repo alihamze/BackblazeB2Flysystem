@@ -323,16 +323,16 @@
         },
         {
             "name": "techyet/b2-sdk",
-            "version": "v0.1.1",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alihamze/BackblazeB2.git",
-                "reference": "7b0c794e7051f44af830c8a587b69f34add45fc1"
+                "reference": "5e95b5a52d3d1a2fdf8ae9398135686416a03430"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alihamze/BackblazeB2/zipball/7b0c794e7051f44af830c8a587b69f34add45fc1",
-                "reference": "7b0c794e7051f44af830c8a587b69f34add45fc1",
+                "url": "https://api.github.com/repos/alihamze/BackblazeB2/zipball/5e95b5a52d3d1a2fdf8ae9398135686416a03430",
+                "reference": "5e95b5a52d3d1a2fdf8ae9398135686416a03430",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                     "email": "ali@techyet.com"
                 }
             ],
-            "time": "2018-03-13T23:15:36+00:00"
+            "time": "2018-03-14T03:38:04+00:00"
         }
     ],
     "packages-dev": [],
