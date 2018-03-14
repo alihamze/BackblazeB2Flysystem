@@ -293,6 +293,35 @@
 		}
 		
 		/**
+		 * @param $path
+		 * @return string
+		 */
+		public function url($path) {
+			return sprintf('%s/file/%s/%s', $this->bucket->getClient()->getDownloadUrl(), $this->bucket->getName(),
+						   $path);
+		}
+		
+		/**
+		 * @param $path
+		 * @param \DateTimeInterface $expiration
+		 * @param array $options
+		 * @return bool|string
+		 */
+		public function getTemporaryUrl($path, $expiration, array $options = []) {
+			try {
+				$seconds = $expiration->getTimestamp() - time();
+				$token = $this->bucket->getFileByName($path)->getDownloadAuthorization([
+																						   'validDurationInSeconds' => $seconds,
+																					   ]);
+				
+				return sprintf('%s?Authorization=%s', $this->url($path), $token);
+			} catch (\Exception $e) {
+				return false;
+			}
+			
+		}
+		
+		/**
 		 * @param File $file
 		 * @return array
 		 */
