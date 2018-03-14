@@ -296,7 +296,7 @@
 		 * @param $path
 		 * @return string
 		 */
-		public function url($path) {
+		public function getUrl($path) {
 			return sprintf('%s/file/%s/%s', $this->bucket->getClient()->getDownloadUrl(), $this->bucket->getName(),
 						   $path);
 		}
@@ -314,7 +314,7 @@
 																						   'validDurationInSeconds' => $seconds,
 																					   ]);
 				
-				return sprintf('%s?Authorization=%s', $this->url($path), $token);
+				return sprintf('%s?Authorization=%s', $this->getUrl($path), $token);
 			} catch (\Exception $e) {
 				return false;
 			}
