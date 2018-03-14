@@ -46,12 +46,13 @@
 		 * @param \League\Flysystem\Config $config Config object
 		 *
 		 * @return array|false false on failure file meta data on success
+		 * @throws B2FlysystemException
 		 */
 		public function write($path, $contents, \League\Flysystem\Config $config) {
 			try {
 				$file = $this->bucket->uploadFile($path, $contents);
 			} catch (\Exception $e) {
-				return false;
+				throw new B2FlysystemException('Error writing file', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 			
 			return $this->normalizeFileInfo($file);
@@ -65,6 +66,7 @@
 		 * @param \League\Flysystem\Config $config Config object
 		 *
 		 * @return array|false false on failure file meta data on success
+		 * @throws B2FlysystemException
 		 */
 		public function writeStream($path, $resource, \League\Flysystem\Config $config) {
 			return $this->write($path, $resource, $config);
@@ -91,6 +93,7 @@
 		 * @param \League\Flysystem\Config $config Config object
 		 *
 		 * @return array|false false on failure file meta data on success
+		 * @throws B2FlysystemException
 		 */
 		public function updateStream($path, $resource, \League\Flysystem\Config $config) {
 			return $this->write($path, $resource, $config);
@@ -126,12 +129,13 @@
 		 * @param string $path
 		 *
 		 * @return bool
+		 * @throws B2FlysystemException
 		 */
 		public function delete($path) {
 			try {
 				return $this->bucket->getFileByName($path)->delete();
 			} catch (\Exception $e) {
-				return false;
+				throw new B2FlysystemException('Error deleting file', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 		}
 		
@@ -141,6 +145,7 @@
 		 * @param string $dirname
 		 *
 		 * @return bool
+		 * @throws B2FlysystemException
 		 */
 		public function deleteDir($dirname) {
 			return $this->delete($dirname);
@@ -153,6 +158,7 @@
 		 * @param \League\Flysystem\Config $config
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function createDir($dirname, \League\Flysystem\Config $config) {
 			return $this->write($dirname, '', $config);
@@ -176,12 +182,13 @@
 		 * @param string $path
 		 *
 		 * @return array|bool|null
+		 * @throws B2FlysystemException
 		 */
 		public function has($path) {
 			try {
 				return $this->bucket->fileExists($path);
 			} catch (\Exception $e) {
-				return null;
+				throw new B2FlysystemException('Error checking for file', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 		}
 		
@@ -191,12 +198,13 @@
 		 * @param string $path
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function read($path) {
 			try {
 				return ['contents' => $this->bucket->getFileByName($path)->download()];
 			} catch (\Exception $e) {
-				return false;
+				throw new B2FlysystemException('Error retrieving file', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 		}
 		
@@ -218,6 +226,7 @@
 		 * @param bool $recursive
 		 *
 		 * @return array
+		 * @throws B2FlysystemException
 		 */
 		public function listContents($directory = '', $recursive = false) {
 			try {
@@ -229,7 +238,7 @@
 				
 				return $returnFiles;
 			} catch (\Exception $e) {
-				return [];
+				throw new B2FlysystemException('Error retrieving files', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 		}
 		
@@ -239,12 +248,13 @@
 		 * @param string $path
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function getMetadata($path) {
 			try {
 				return $this->normalizeFileInfo($this->bucket->getFileByName($path));
 			} catch (\Exception $e) {
-				return false;
+				throw new B2FlysystemException('Error retrieving meta data', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 		}
 		
@@ -254,6 +264,7 @@
 		 * @param string $path
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function getSize($path) {
 			return $this->getMetadata($path);
@@ -265,6 +276,7 @@
 		 * @param string $path
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function getMimetype($path) {
 			return $this->getMetadata($path);
@@ -276,6 +288,7 @@
 		 * @param string $path
 		 *
 		 * @return array|false
+		 * @throws B2FlysystemException
 		 */
 		public function getTimestamp($path) {
 			return $this->getMetadata($path);
@@ -306,6 +319,7 @@
 		 * @param \DateTimeInterface $expiration
 		 * @param array $options
 		 * @return bool|string
+		 * @throws B2FlysystemException
 		 */
 		public function getTemporaryUrl($path, $expiration, array $options = []) {
 			try {
@@ -316,7 +330,7 @@
 				
 				return sprintf('%s?Authorization=%s', $this->getUrl($path), $token);
 			} catch (\Exception $e) {
-				return false;
+				throw new B2FlysystemException('Error retrieving temporary url', B2FlysystemException::B2_SDK_ERROR, $e);
 			}
 			
 		}
